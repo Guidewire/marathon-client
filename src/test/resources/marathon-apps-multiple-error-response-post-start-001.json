@@ -1,0 +1,12 @@
+{
+    "errors": [
+        {
+            "attribute": "cmd",
+            "error": "may not be empty"
+        },
+        {
+            "attribute": "id",
+            "error": "may not be empty"
+        }
+    ]
+}

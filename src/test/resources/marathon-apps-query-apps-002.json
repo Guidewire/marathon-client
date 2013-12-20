@@ -1,0 +1,13 @@
+[ {
+    "id" : "100",
+    "cmd" : "run",
+    "env" : { },
+    "instances" : 1,
+    "cpus" : 4.0,
+    "mem" : 200.0,
+    "executor" : "",
+    "constraints" : [ ],
+    "uris" : [ ],
+    "ports" : [ ],
+    "taskRateLimit" : 1.0
+} ]

@@ -1,0 +1,26 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="All suites" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
+    <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+      <pattern>
+        <option name="PATTERN" value="com.guidewire.tools.marathon.client.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <extension name="scalaCoverage" />
+    <module name="marathon-client" />
+    <setting name="path" value="" />
+    <setting name="package" value="com.guidewire.tools.marathon.client" />
+    <setting name="vmparams" value="" />
+    <setting name="params" value="" />
+    <setting name="workingDirectory" value="file://$PROJECT_DIR$" />
+    <setting name="searchForTest" value="Across module dependencies" />
+    <setting name="testName" value="" />
+    <setting name="testKind" value="All in package" />
+    <setting name="showProgressMessages" value="true" />
+    <RunnerSettings RunnerId="Cover" />
+    <RunnerSettings RunnerId="Run" />
+    <ConfigurationWrapper RunnerId="Cover" />
+    <ConfigurationWrapper RunnerId="Run" />
+    <method />
+  </configuration>
+</component>
