@@ -27,7 +27,7 @@ class BasicFunctionalitySuite extends FunSuite
     for(app <- apps) {
       app should not be null
       app.id should not be ""
-      //println(s"$app")
+      println(s"$app")
     }
   })
 
@@ -132,7 +132,7 @@ class BasicFunctionalitySuite extends FunSuite
     for(endpoint <- result) {
       endpoint should not be (null)
       endpoint.id should not be ("")
-      //println(endpoint)
+      println(endpoint)
     }
   })
 
@@ -206,38 +206,40 @@ class BasicFunctionalitySuite extends FunSuite
     }
   }
 
-  test("Ports") (ignoreIfHostNotUp { (host, port) =>
-    val result =
-      blockAndValidateSuccess {
-        implicit val cn = Connection(host, port)
-        for {
-             _ <- Marathon.Apps.destroy("ports-test-1")
-          done <- Marathon.Apps.start(App(
-                      id        = "ports-test-1"
-                    , cmd       = "while sleep 1; do echo \"MY PORTS: $PORTS\" >> /tmp/ports.log; done"
-                    , instances = 1
-                    , cpus      = 4.0
-                    , mem       = 4096
-                    , ports     = Seq.fill(10)(0) //Asks for 10 ports to use
-                  ))
-        } yield done
-      }
-    result.success should be (true)
-  })
+//  test("Ports") (ignoreIfHostNotUp { (host, port) =>
+//    val result =
+//      blockAndValidateSuccess {
+//        implicit val cn = Connection(host, port)
+//        for {
+//             _ <- Marathon.Apps.destroy("ports-test-1")
+//          done <- Marathon.Apps.start(App(
+//                      id        = "ports-test-1"
+//                    , cmd       = "while sleep 1; do echo \"MY PORTS: $PORTS\" >> /tmp/ports.log; done"
+//                    , instances = 1
+//                    , cpus      = 0.1
+//                    , mem       = 32
+//                    , ports     = Seq.fill(10)(0) //Asks for 10 ports to use
+//                  ))
+//        } yield done
+//      }
+//    result.success should be (true)
+//  })
 
   test("Docker") (ignoreIfHostNotUp { (host, port) =>
     val result =
       blockAndValidateSuccess {
         implicit val cn = Connection(host, port)
         for {
-             _ <- Marathon.Apps.destroy("docker-gitmo-2")
+             _ <- Marathon.Apps.destroy("mesos-docker-gitmo")
           done <- Marathon.Apps.start(App(
-                      id        = "docker-gitmo-2"
-                    , cmd       = "-v /var/log/gitmo:/var/log/gitmo -p 12345:12345 docker.sandbox-master.guidewire.com/ubuntu:sandbox-raring deploy -app bc -version 8.0.0 -appserver tomcat7 -port 12345 -overwrite"
+                      id        = "mesos-docker-gitmo"
+                    , cmd       = "deploy -app bc -version 8.0.0 -appserver tomcat7 -overwrite"
                     , instances = 1
-                    , cpus      = 4.0
-                    , mem       = 4096
-                    , executor  = "/opt/mesos/default/var/lib/mesos/executors/guidewire-docker-executor"
+                    , cpus      = 1.0
+                    , mem       = 2048
+                    , container = Container("docker:///docker-registry.backyard.guidewire.com/gitmo")
+                    , executor  = "/var/lib/mesos/executors/mesos-docker-gitmo"
+                    , ports     = Seq(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
                   ))
         } yield done
       }

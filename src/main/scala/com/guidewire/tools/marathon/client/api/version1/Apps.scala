@@ -4,6 +4,15 @@ import play.api.libs.json._
 
 import com.guidewire.tools.marathon.client
 
+case class Container(
+    image:String
+  , options: Seq[String]
+) extends client.Container
+
+object Container {
+  implicit val fmt = Json.format[Container]
+}
+
 case class Constraint(
     field:String
   , operator:String
@@ -25,6 +34,7 @@ case class App(
   , constraints  : Seq[Constraint]
   , uris         : Seq[String]
   , ports        : Seq[Int]
+  , container    : Container
   //, taskRateLimit: Option[Double]
 ) extends client.App
 

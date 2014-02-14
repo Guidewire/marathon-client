@@ -13,6 +13,10 @@ object v1 extends Client {
   val  VersionSpecificAppDestroyFormat = version1.AppDestroy.fmt
   val  VersionSpecificAppDestroyApply  = version1.AppDestroy.apply _
 
+  type VersionSpecificContainer       = version1.Container
+  val  VersionSpecificContainerFormat = version1.Container.fmt
+  val  VersionSpecificContainerApply  = version1.Container.apply _
+
   type VersionSpecificConstraint       = version1.Constraint
   val  VersionSpecificConstraintFormat = version1.Constraint.fmt
   val  VersionSpecificConstraintApply  = version1.Constraint.apply _

@@ -1,5 +1,57 @@
 package com.guidewire.tools.marathon.client
 
+trait Container {
+  def image  : String
+  def options: Seq[String]
+}
+
+object Container {
+  type Apply[TContainer <: Container] = (
+      String
+    , Seq[String]
+  ) => TContainer
+
+  def apply(
+      image: String
+    , options: Seq[String] = Seq()
+  )
+  (implicit version: api.Client)
+  = validate(version.VersionSpecificContainerApply(image, options))
+
+  def validate(container: Container): Container =
+    container
+}
+
+/**
+ * WARNING: This should never be a companion object or it will not be exposed to the Java API
+ *          correctly.
+ */
+object Containers {
+  def create(
+      image  : String
+  )
+  = Container(image)(implicitly[api.Client])
+
+  def create(
+      image  : String
+    , options: Seq[String]
+  )
+  = Container(image, options)(implicitly[api.Client])
+
+  def create(
+      image: String
+    , version: api.Client
+  )
+  = Container(image)(version)
+
+  def create(
+      image: String
+    , options: Seq[String]
+    , version: api.Client
+  )
+  = Container(image, options)(version)
+}
+
 trait Constraint {
   def field   : String
   def operator: String
@@ -57,11 +109,12 @@ trait App {
   def constraints  : Seq[Constraint]
   def uris         : Seq[String]
   def ports        : Seq[Int]
+  def container    : Container
   //def taskRateLimit: Option[Double]
 }
 
 object App {
-  type Apply[TConstraint <: Constraint, TApp <: App] = (
+  type Apply[TContainer <: Container, TConstraint <: Constraint, TApp <: App] = (
       String
     , String
     , Map[String, String]
@@ -70,7 +123,9 @@ object App {
     , Double
     , String
     , Seq[TConstraint]
-    , Seq[String], Seq[Int]
+    , Seq[String]
+    , Seq[Int]
+    , TContainer
   ) => TApp
 
   def apply(
@@ -84,10 +139,11 @@ object App {
     , constraints  : Seq[Constraint]     = Seq()
     , uris         : Seq[String]         = Seq()
     , ports        : Seq[Int]            = Seq()
+    , container    : Container           = null
     //, taskRateLimit: Option[Double]      = Some(1.0)
   )
   (implicit version: api.Client)
-  = validate(version.VersionSpecificAppApply(id, cmd, env, instances, cpus, mem, executor, for(c <- constraints) yield version.VersionSpecificConstraintApply(c.field, c.operator, c.value), uris, ports/*, taskRateLimit*/))
+  = validate(version.VersionSpecificAppApply(id, cmd, env, instances, cpus, mem, executor, for(c <- constraints) yield version.VersionSpecificConstraintApply(c.field, c.operator, c.value), uris, ports, version.VersionSpecificContainerApply(container.image, container.options)/*, taskRateLimit*/))
 
   val REGEX_VALIDATE_EXECUTOR = """(^//cmd$)|(^/[^/].*$)|""".r.pattern
   val REGEX_VALIDATE_ID = """^[A-Za-z0-9_.-]+$""".r.pattern

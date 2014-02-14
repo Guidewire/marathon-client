@@ -14,17 +14,21 @@ trait ClientApps { self: ClientVersion =>
 
   type VersionSpecificApp <: App
   type VersionSpecificAppScale <: AppScale
+  type VersionSpecificContainer <: Container
   type VersionSpecificAppDestroy <: AppDestroy
   type VersionSpecificConstraint <: Constraint
 
   val VersionSpecificAppFormat: Format[VersionSpecificApp]
-  val VersionSpecificAppApply : App.Apply[VersionSpecificConstraint, VersionSpecificApp]
+  val VersionSpecificAppApply : App.Apply[VersionSpecificContainer, VersionSpecificConstraint, VersionSpecificApp]
 
   val VersionSpecificAppScaleFormat: Format[VersionSpecificAppScale]
   val VersionSpecificAppScaleApply : AppScale.Apply[VersionSpecificAppScale]
 
   val VersionSpecificAppDestroyFormat: Format[VersionSpecificAppDestroy]
   val VersionSpecificAppDestroyApply : AppDestroy.Apply[VersionSpecificAppDestroy]
+
+  val VersionSpecificContainerFormat: Format[VersionSpecificContainer]
+  val VersionSpecificContainerApply : Container.Apply[VersionSpecificContainer]
 
   val VersionSpecificConstraintFormat: Format[VersionSpecificConstraint]
   val VersionSpecificConstraintApply : Constraint.Apply[VersionSpecificConstraint]
