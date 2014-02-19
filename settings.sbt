@@ -38,4 +38,5 @@ publishSettings := publishing(
   , releaseRepository     = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
   , snapshotCredentialsID = "sonatype-nexus-snapshots"
   , snapshotRepository    = "https://oss.sonatype.org/content/repositories/snapshots"
+  , signArtifacts         = true
 )
