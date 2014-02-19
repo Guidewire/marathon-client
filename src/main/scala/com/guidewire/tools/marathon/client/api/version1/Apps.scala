@@ -1,6 +1,7 @@
 package com.guidewire.tools.marathon.client.api.version1
 
 import play.api.libs.json._
+import play.api.libs.functional.syntax._
 
 import com.guidewire.tools.marathon.client
 
@@ -34,7 +35,7 @@ case class App(
   , constraints  : Seq[Constraint]
   , uris         : Seq[String]
   , ports        : Seq[Int]
-  , container    : Container
+  , container    : Option[Container]
   //, taskRateLimit: Option[Double]
 ) extends client.App
 

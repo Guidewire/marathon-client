@@ -27,7 +27,7 @@ class BasicFunctionalitySuite extends FunSuite
     for(app <- apps) {
       app should not be null
       app.id should not be ""
-      println(s"$app")
+      //println(s"$app")
     }
   })
 
@@ -132,7 +132,7 @@ class BasicFunctionalitySuite extends FunSuite
     for(endpoint <- result) {
       endpoint should not be (null)
       endpoint.id should not be ("")
-      println(endpoint)
+      //println(endpoint)
     }
   })
 
@@ -225,26 +225,26 @@ class BasicFunctionalitySuite extends FunSuite
 //    result.success should be (true)
 //  })
 
-  test("Docker") (ignoreIfHostNotUp { (host, port) =>
-    val result =
-      blockAndValidateSuccess {
-        implicit val cn = Connection(host, port)
-        for {
-             _ <- Marathon.Apps.destroy("mesos-docker-gitmo")
-          done <- Marathon.Apps.start(App(
-                      id        = "mesos-docker-gitmo"
-                    , cmd       = "deploy -app bc -version 8.0.0 -appserver tomcat7 -overwrite"
-                    , instances = 1
-                    , cpus      = 1.0
-                    , mem       = 2048
-                    , container = Container("docker:///docker-registry.backyard.guidewire.com/gitmo")
-                    , executor  = "/var/lib/mesos/executors/mesos-docker-gitmo"
-                    , ports     = Seq(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-                  ))
-        } yield done
-      }
-    result.success should be (true)
-  })
+//  test("Docker") (ignoreIfHostNotUp { (host, port) =>
+//    val result =
+//      blockAndValidateSuccess {
+//        implicit val cn = Connection(host, port)
+//        for {
+//             _ <- Marathon.Apps.destroy("mesos-docker-gitmo")
+//          done <- Marathon.Apps.start(App(
+//                      id        = "mesos-docker-gitmo"
+//                    , cmd       = "deploy -app bc -version 8.0.0 -appserver tomcat7 -overwrite"
+//                    , instances = 1
+//                    , cpus      = 1.0
+//                    , mem       = 2048
+//                    , container = Container("docker:///docker-registry.backyard.guidewire.com/gitmo")
+//                    , executor  = "/var/lib/mesos/executors/mesos-docker-gitmo"
+//                    , ports     = Seq(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+//                  ))
+//        } yield done
+//      }
+//    result.success should be (true)
+//  })
 
   for(i <- 1 to 3)
     test(f"Can deserialize simple app lists (/marathon-apps-query-apps-${i}%03d.json)")(validateResourceParse(f"/marathon-apps-query-apps-${i}%03d.json")(api.v1.parseQueryAppsResponse))

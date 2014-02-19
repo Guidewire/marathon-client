@@ -9,5 +9,6 @@
     "constraints" : [ ],
     "uris" : [ ],
     "ports" : [ ],
-    "taskRateLimit" : 1.0
+    "taskRateLimit" : 1.0,
+    "container": null
 } ]

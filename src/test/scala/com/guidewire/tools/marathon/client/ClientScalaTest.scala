@@ -32,8 +32,10 @@ object ClientScalaTest {
   def blockAndValidateSuccess[A](f: => scala.concurrent.Future[Validation[Error, A]]): A = {
     val future = f
     future.onComplete {
-      case scala.util.Failure(failure) => fail(failure)
-      case scala.util.Success(result) => validateSuccess(result)
+      case scala.util.Failure(failure) =>
+        fail(failure)
+      case scala.util.Success(result) =>
+        validateSuccess(result)
     }
     val result = Await.result(future, 10 seconds)
     result match {
@@ -65,8 +67,10 @@ object ClientScalaTest {
   }
 
   def validateSuccess[A](v: Validation[Error, A]): Option[A] = v match {
-    case scalaz.Success(x) => Some(x)
-    case scalaz.Failure(error) => fail(s"$error"); None
+    case scalaz.Success(x) =>
+      Some(x)
+    case scalaz.Failure(error) =>
+      fail(s"$error"); None
     case _ => fail(s"Failed in validateSuccess()"); None
   }
 

@@ -109,7 +109,7 @@ trait App {
   def constraints  : Seq[Constraint]
   def uris         : Seq[String]
   def ports        : Seq[Int]
-  def container    : Container
+  def container    : Option[Container]
   //def taskRateLimit: Option[Double]
 }
 
@@ -125,7 +125,7 @@ object App {
     , Seq[TConstraint]
     , Seq[String]
     , Seq[Int]
-    , TContainer
+    , Option[TContainer]
   ) => TApp
 
   def apply(
@@ -139,11 +139,11 @@ object App {
     , constraints  : Seq[Constraint]     = Seq()
     , uris         : Seq[String]         = Seq()
     , ports        : Seq[Int]            = Seq()
-    , container    : Container           = null
+    , container    : Option[Container]   = None
     //, taskRateLimit: Option[Double]      = Some(1.0)
   )
   (implicit version: api.Client)
-  = validate(version.VersionSpecificAppApply(id, cmd, env, instances, cpus, mem, executor, for(c <- constraints) yield version.VersionSpecificConstraintApply(c.field, c.operator, c.value), uris, ports, version.VersionSpecificContainerApply(container.image, container.options)/*, taskRateLimit*/))
+  = validate(version.VersionSpecificAppApply(id, cmd, env, instances, cpus, mem, executor, for(c <- constraints) yield version.VersionSpecificConstraintApply(c.field, c.operator, c.value), uris, ports, for(c <- container) yield version.VersionSpecificContainerApply(c.image, c.options)/*, taskRateLimit*/))
 
   val REGEX_VALIDATE_EXECUTOR = """(^//cmd$)|(^/[^/].*$)|""".r.pattern
   val REGEX_VALIDATE_ID = """^[A-Za-z0-9_.-]+$""".r.pattern

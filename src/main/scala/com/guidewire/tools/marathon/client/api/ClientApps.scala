@@ -79,6 +79,7 @@ trait ClientApps { self: ClientVersion =>
    * @return a [[scalaz.Validation]] that can be composed using normal scalaz methods
    */
   def parseQueryAppsResponse(statusCode: Int, response: Array[Byte]): Validation[Error, Traversable[App]] =
+    //validateify(statusCode, Json.parse(response).transform((__ \ 'container).json.update(__.read[JsObject].map { o => if (o == JsNull) implicitly[Writes[Container]].writes(VersionSpecificContainerApply("", Seq())) else o })).validate[Seq[App]])
     validateify(statusCode, Json.parse(response).validate[Seq[App]])
 
   /**
