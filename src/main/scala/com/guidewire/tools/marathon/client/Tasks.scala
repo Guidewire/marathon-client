@@ -33,6 +33,8 @@ object Task {
     task
 }
 
+import scala.collection.JavaConverters._
+
 /**
  * WARNING: This should never be a companion object or it will not be exposed to the Java API
  *          correctly.
@@ -41,17 +43,17 @@ object Tasks {
   def create(
       id   : String
     , host : String
-    , ports: Seq[Int]
+    , ports: java.util.List[java.lang.Integer]
   )
-  = Task(id = id, host = host, ports = ports)(implicitly[api.Client])
+  = Task(id = id, host = host, ports = ports.asScala.map(_.toInt).toSeq)(implicitly[api.Client])
 
   def create(
       id     : String
     , host   : String
-    , ports  : Seq[Int]
+    , ports  : java.util.List[java.lang.Integer]
     , version: api.Client
   )
-  = Task(id = id, host = host, ports = ports)(version)
+  = Task(id = id, host = host, ports = ports.asScala.map(_.toInt).toSeq)(version)
 }
 
 object TaskKill {

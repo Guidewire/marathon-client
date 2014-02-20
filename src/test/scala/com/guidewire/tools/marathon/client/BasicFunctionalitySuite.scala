@@ -236,8 +236,8 @@ class BasicFunctionalitySuite extends FunSuite
 //                    , cmd       = "deploy -app bc -version 8.0.0 -appserver tomcat7 -overwrite"
 //                    , instances = 1
 //                    , cpus      = 1.0
-//                    , mem       = 2048
-//                    , container = Container("docker:///docker-registry.backyard.guidewire.com/gitmo")
+//                    , mem       = 4096
+//                    , container = Some(Container("docker:///docker-registry.backyard.guidewire.com/gitmo"))
 //                    , executor  = "/var/lib/mesos/executors/mesos-docker-gitmo"
 //                    , ports     = Seq(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 //                  ))

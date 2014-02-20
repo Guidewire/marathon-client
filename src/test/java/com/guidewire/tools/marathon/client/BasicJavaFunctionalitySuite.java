@@ -113,7 +113,7 @@ public class BasicJavaFunctionalitySuite {
     Assume.assumeTrue(ping(DEFAULT_HOST, DEFAULT_PORT));
     allSuccess(sequential(
         doNotCheck(deferredAppDestroy(DEFAULT_HOST, DEFAULT_PORT, "junit-app-start"))
-      ,      check(deferredAppStart(DEFAULT_HOST, DEFAULT_PORT, Apps.create("junit-app-start", "echo junit-app-start")))
+      ,      check(deferredAppStart(DEFAULT_HOST, DEFAULT_PORT, Apps.create("junit-app-start", "echo junit-app-start", 1, 1.0D, 10.0D, "", new ArrayList<Integer>(), null)))
       ,      check(deferredAppDestroy(DEFAULT_HOST, DEFAULT_PORT, "junit-app-start"))
     ));
   }

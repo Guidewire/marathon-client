@@ -26,6 +26,8 @@ object Endpoint {
     endpoint
 }
 
+import scala.collection.JavaConverters._
+
 /**
  * WARNING: This should never be a companion object or it will not be exposed to the Java API
  *          correctly.
@@ -33,16 +35,16 @@ object Endpoint {
 object Endpoints {
   def create(
       id       : String
-    , ports    : Seq[Int]
-    , instances: Seq[Task]
+    , ports    : java.util.List[java.lang.Integer]
+    , instances: java.util.List[Task]
   )
-  = Endpoint(id, ports, instances)(implicitly[api.Client])
+  = Endpoint(id, ports.asScala.map(_.toInt).toSeq, instances.asScala.toSeq)(implicitly[api.Client])
 
   def create(
       id       : String
-    , ports    : Seq[Int]
-    , instances: Seq[Task]
+    , ports    : java.util.List[java.lang.Integer]
+    , instances: java.util.List[Task]
     , version  : api.Client
   )
-  = Endpoint(id, ports, instances)(version)
+  = Endpoint(id, ports.asScala.map(_.toInt), instances.asScala.toSeq)(version)
 }

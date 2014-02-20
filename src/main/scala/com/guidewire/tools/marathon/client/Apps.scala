@@ -180,11 +180,28 @@ object Apps {
     , executor     : String
     , constraints  : java.util.List[Constraint]
     , uris         : java.util.List[String]
-    , ports        : java.util.List[Int]
+    , ports        : java.util.List[java.lang.Integer]
+    , container    : Container
     //, taskRateLimit: Option[Double]
     , version      : api.Client
   )
-  = App(id, cmd, env.asScala.toMap, instances, cpus, mem, executor, constraints.asScala.toSeq, uris.asScala.toSeq, ports.asScala.toSeq)(version)
+  = App(id, cmd, env.asScala.toMap, instances, cpus, mem, executor, constraints.asScala.toSeq, uris.asScala.toSeq, ports.asScala.map(_.toInt).toSeq, Option(container))(version)
+
+  def create(
+      id           : String
+    , cmd          : String
+    , env          : java.util.Map[String, String]
+    , instances    : Int
+    , cpus         : Double
+    , mem          : Double
+    , constraints  : java.util.List[Constraint]
+    , uris         : java.util.List[String]
+    , ports        : java.util.List[java.lang.Integer]
+    , container    : Container
+    //, taskRateLimit: Option[Double]
+    , version      : api.Client
+  )
+  = App(id = id, cmd = cmd, env = env.asScala.toMap, instances = instances, cpus = cpus, mem = mem, constraints = constraints.asScala.toSeq, uris = uris.asScala.toSeq, ports = ports.asScala.map(_.toInt).toSeq, container = Option(container))(version)
 
   def create(
       id           : String
@@ -193,11 +210,12 @@ object Apps {
     , cpus         : Double
     , mem          : Double
     , executor     : String
-    , ports        : java.util.List[Int]
+    , ports        : java.util.List[java.lang.Integer]
+    , container    : Container
     //, taskRateLimit: Option[Double]
     , version      : api.Client
   )
-  = App(id = id, cmd = cmd, instances = instances, cpus = cpus, mem = mem, executor = executor, ports = ports.asScala.toSeq)(implicitly[api.Client])
+  = App(id = id, cmd = cmd, instances = instances, cpus = cpus, mem = mem, executor = executor, ports = ports.asScala.map(_.toInt).toSeq, container = Option(container))(implicitly[api.Client])
 
   def create(
       id           : String
@@ -206,9 +224,42 @@ object Apps {
     , cpus         : Double
     , mem          : Double
     , executor     : String
-    , ports        : java.util.List[Int]
+    , ports        : java.util.List[java.lang.Integer]
+    , container    : Container
   )
-  = App(id = id, cmd = cmd, instances = instances, cpus = cpus, mem = mem, executor = executor, ports = ports.asScala.toSeq)(implicitly[api.Client])
+  = App(id = id, cmd = cmd, instances = instances, cpus = cpus, mem = mem, executor = executor, ports = ports.asScala.map(_.toInt).toSeq, container = Option(container))(implicitly[api.Client])
+
+  def create(
+      id           : String
+    , cmd          : String
+    , instances    : Int
+    , cpus         : Double
+    , mem          : Double
+    , executor     : String
+    , ports        : java.util.List[java.lang.Integer]
+  )
+  = App(id = id, cmd = cmd, instances = instances, cpus = cpus, mem = mem, executor = executor, ports = ports.asScala.map(_.toInt).toSeq)(implicitly[api.Client])
+
+  def create(
+      id           : String
+    , cmd          : String
+    , env          : java.util.Map[String, String]
+    , instances    : Int
+    , cpus         : Double
+    , mem          : Double
+    , version      : api.Client
+  )
+  = App(id = id, cmd = cmd, env = env.asScala.toMap, instances = instances, cpus = cpus, mem = mem)(version)
+
+  def create(
+      id           : String
+    , cmd          : String
+    , env          : java.util.Map[String, String]
+    , instances    : Int
+    , cpus         : Double
+    , mem          : Double
+  )
+  = App(id = id, cmd = cmd, env = env.asScala.toMap, instances = instances, cpus = cpus, mem = mem)(implicitly[api.Client])
 
   def create(
       id           : String
