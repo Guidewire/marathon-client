@@ -230,10 +230,10 @@ class BasicFunctionalitySuite extends FunSuite
 //      blockAndValidateSuccess {
 //        implicit val cn = Connection(host, port)
 //        for {
-//             _ <- Marathon.Apps.destroy("mesos-docker-gitmo")
+//             _ <- Marathon.Apps.destroy("mesos-docker-gitmo-api")
 //          done <- Marathon.Apps.start(App(
-//                      id        = "mesos-docker-gitmo"
-//                    , cmd       = "deploy -app bc -version 8.0.0 -appserver tomcat7 -overwrite"
+//                      id        = "mesos-docker-gitmo-api"
+//                    , cmd       = "http://get.backyard.guidewire.com/backyard/requests.json"
 //                    , instances = 1
 //                    , cpus      = 1.0
 //                    , mem       = 4096
